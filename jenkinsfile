@@ -76,7 +76,7 @@ post {
         emailext(
             subject: "Build Notification: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
             body: "Simple email test. Build URL: ${env.BUILD_URL}",
-            to: "aameerkhan19@gmail.com"
+            to: "khanaameer1998@gmail.com"
         )
     }
 }
