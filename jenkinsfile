@@ -72,22 +72,20 @@ pipeline{
 
 
  post {
-        always {
-            script {
-                try {
-                    emailext attachLog: true,
-                            subject: "Build Result: ${currentBuild.result}",
-                            body: "Project: ${env.JOB_NAME}<br/>" +
-                                  "Build Number: ${env.BUILD_NUMBER}<br/>" +
-                                  "URL: ${env.BUILD_URL}<br/>",
-                            to: 'khanaameer1998@gmail.com',
-                            attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
-                    echo 'Email sent successfully.'
-                } catch (Exception e) {
-                    echo 'Failed to send email.'
-                    echo "Error: ${e.getMessage()}"
-                }
-            }
-        }
+    always {
+        emailext(
+            to: 'khanaameer1998@gmail.com',
+            subject: "Build Result: ${currentBuild.result} for Job: ${env.JOB_NAME}",
+            body: """<p>Build Details:</p>
+                     <ul>
+                         <li>Job Name: ${env.JOB_NAME}</li>
+                         <li>Build Number: ${env.BUILD_NUMBER}</li>
+                         <li>Build Status: ${currentBuild.result}</li>
+                         <li>Build URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></li>
+                     </ul>""",
+            attachLog: true,
+            attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
+        )
     }
+}
 
