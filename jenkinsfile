@@ -72,20 +72,23 @@ pipeline{
 
 
  post {
-    always {
-        emailext(
-            to: 'khanaameer1998@gmail.com',
-            subject: "Build Result: ${currentBuild.result} for Job: ${env.JOB_NAME}",
-            body: """<p>Build Details:</p>
-                     <ul>
-                         <li>Job Name: ${env.JOB_NAME}</li>
-                         <li>Build Number: ${env.BUILD_NUMBER}</li>
-                         <li>Build Status: ${currentBuild.result}</li>
-                         <li>Build URL: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></li>
-                     </ul>""",
-            attachLog: true,
-            attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
-        )
+        always {
+            echo 'This will always run.'
+            // Your post-build actions, like sending an email, go here.
+            emailext(
+                to: 'your-email@example.com',
+                subject: "Build finished - ${currentBuild.fullDisplayName}",
+                body: "Check out Jenkins at ${env.BUILD_URL}"
+            )
+        }
+        success {
+            echo 'This will run only if the build succeeded.'
+            // Actions to take on success
+        }
+        failure {
+            echo 'This will run only if the build failed.'
+            // Actions to take on failure
+        }
     }
-}
+ 
 
