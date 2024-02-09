@@ -76,7 +76,7 @@ pipeline{
             echo 'This will always run.'
             // Your post-build actions, like sending an email, go here.
             emailext(
-                to: 'your-email@example.com',
+                to: 'khanaameer1998@gmail.com',
                 subject: "Build finished - ${currentBuild.fullDisplayName}",
                 body: "Check out Jenkins at ${env.BUILD_URL}"
             )
