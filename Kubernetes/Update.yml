@@ -1,0 +1,22 @@
+name: Update Deployment Image
+on:
+  repository_dispatch:
+    types: [docker-image-pushed]
+
+jobs:
+  update-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Update YAML file
+        run: |
+          sed -i 's|image: netflix:.*|image: netflix:latest|' Kubernetes/deployment.yml 
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -am "Update image tag to latest"
+          git push
